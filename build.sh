@@ -15,7 +15,10 @@
  export WINEPREFIX="$HOME/.local/share/wineprefixes/openkh"                                                                       
                                                                                                                         
 function run_in_wineprefix() {
-    WINEPREFIX="$WINEPREFIX" wine "$@"
+    WINEPREFIX="$WINEPREFIX" wine "$@" || {
+        echo "Failed to run '$@' in Wine prefix." >&2
+        return $?
+    }
 }
 
 function setup_wine_prefix() {                                                                                                  
@@ -64,8 +67,7 @@ function setup_wine_prefix() {
  fi                                                                                                                     
                                                                                                                         
  # Publish solution                                                                                                     
- dotnet publish $solution --configuration $configuration --verbosity $verbosity --framework net6.0 --output $output     
- /p:DebugType=None /p:DebugSymbols=false                                                                                
+ dotnet publish $solution --configuration $configuration --verbosity $verbosity --framework net6.0 --output $output /p:DebugType=None /p:DebugSymbols=false                                                                                
                                                                                                                         
  # Set up Wine prefix                                                                                                   
  setup_wine_prefix                                                                                                      
