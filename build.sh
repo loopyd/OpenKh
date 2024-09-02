@@ -14,10 +14,14 @@
  export solution="$solutionBase.sln"                                                                                    
  export WINEPREFIX="$HOME/.local/share/wineprefixes/openkh"                                                                       
                                                                                                                         
- function setup_wine_prefix() {                                                                                                  
-     echo "Setting up Wine prefix..."                                                                                   
-     winetricks --unattended vcrun20222 dotnet48 corefonts                                                                                        
- }                                                                                                                      
+function run_in_wineprefix() {
+    WINEPREFIX="$WINEPREFIX" wine "$@"
+}
+
+function setup_wine_prefix() {                                                                                                  
+    echo "Setting up Wine prefix..."                                                                                   
+    run_in_wineprefix winetricks --unattended vcrun20222 dotnet48 corefonts                                                                                        
+}
                                                                                                                         
  function teardown_wine_prefix() {                                                                                               
      echo "Tearing down Wine prefix..."                  
