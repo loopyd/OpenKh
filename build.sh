@@ -23,13 +23,15 @@ function run_in_wineprefix() {
 
 function setup_wine_prefix() {                                                                                                  
     echo "Setting up Wine prefix..."                                                                                   
-    run_in_wineprefix winetricks --unattended vcrun20222 dotnet48 corefonts                                                                                        
+    run_in_wineprefix winetricks --unattended vcrun20222 dotnet48 corefonts
+    ln -s "$(pwd)" "$WINEPREFIX/drive_c/project"
 }
                                                                                                                         
  function teardown_wine_prefix() {                                                                                               
      echo "Tearing down Wine prefix..."                  
      killall wineserver                                                               
-     rm -rf "$WINEPREFIX"                                                                                               
+     rm -rf "$WINEPREFIX"
+     unlink "$WINEPREFIX/drive_c/project"
  }                                                                                                                      
                                                                                                  
  # Update submodules                                                                                                    
