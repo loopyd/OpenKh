@@ -15,7 +15,9 @@
  export WINEPREFIX="$HOME/.local/share/wineprefixes/openkh"                                                                       
                                                                                                                         
 function run_in_wineprefix() {
-    WINEPREFIX="$WINEPREFIX" wine "$@" || {
+    local workdir="$1"
+    shift
+    WINEPREFIX="$WINEPREFIX" wine cmd /c "cd /d $workdir && $@" || {
         echo "Failed to run '$@' in Wine prefix." >&2
         return $?
     }
@@ -76,7 +78,7 @@ function setup_wine_prefix() {
                                                                                                                         
  # Use Wine to build Windows-specific projects                                                                          
  for project in ./OpenKh.Tools.*/*.csproj; do                                                                           
-     run_in_wineprefix dotnet build "$project" --configuration $configuration --output $output              
+     run_in_wineprefix "C:\\project" dotnet build "$project" --configuration $configuration --output $output              
  done                                                                                                                   
                                                                                                                         
  # Tear down Wine prefix                                                                                                
