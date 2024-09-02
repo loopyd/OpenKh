@@ -74,7 +74,7 @@ function setup_wine_prefix() {
                                                                                                                         
  # Use Wine to build Windows-specific projects                                                                          
  for project in ./OpenKh.Tools.*/*.csproj; do                                                                           
-     WINEPREFIX="$WINEPREFIX" wine dotnet build "$project" --configuration $configuration --output $output              
+     run_in_wineprefix dotnet build "$project" --configuration $configuration --output $output              
  done                                                                                                                   
                                                                                                                         
  # Tear down Wine prefix                                                                                                
